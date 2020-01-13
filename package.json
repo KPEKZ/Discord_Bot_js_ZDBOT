@@ -1,0 +1,23 @@
+{
+  "name": "Discord_Bot_js_ZDBOT",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KPEKZ/Discord_Bot_js_ZDBOT.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KPEKZ/Discord_Bot_js_ZDBOT/issues"
+  },
+  "homepage": "https://github.com/KPEKZ/Discord_Bot_js_ZDBOT#readme",
+  "dependencies": {
+    "discord.js": "^11.5.1"
+  }
+}
