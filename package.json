@@ -4,7 +4,7 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nodemon script.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/KPEKZ/Discord_Bot_js_ZDBOT#readme",
   "dependencies": {
-    "discord.js": "^11.5.1"
+    "@discordjs/opus": "^0.1.0",
+    "cheerio": "^1.0.0-rc.3",
+    "discord.js": "^11.5.1",
+    "eslint": "^6.8.0",
+    "nodemon": "^2.0.2"
   }
 }
