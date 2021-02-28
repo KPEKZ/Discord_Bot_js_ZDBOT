@@ -4,7 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "nodemon script.js"
+    "stard": " node script",
+    "dev" : "nodemon srcipt"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,10 @@
     "cheerio": "^1.0.0-rc.3",
     "discord.js": "^11.5.1",
     "eslint": "^6.8.0",
-    "nodemon": "^2.0.2"
+    "node-fetch": "^2.6.1",
+    "puppeteer": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

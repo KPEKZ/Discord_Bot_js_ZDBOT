@@ -1,15 +1,32 @@
 const Discord = require('discord.js');
+const fetch = require('node-fetch');
 const https = require('https');
+const puppeteer = require('puppeteer');
 const client = new Discord.Client();
-const botconfig = require("./botconfig.json");
-const token  = (botconfig.token);
-let regStr = /\-([A-Za-z\s]{2,})/gi;
-let userMessage ='';
-let answer = '';
+const {prefix} = require("./botconfig.json");
+const token = process.env.BOT_TOKEN;
+const Gif = /\!gif .*/i;
+const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
+`${prefix}hello (say hello)`,
+`${prefix}ping (Show your ping)`,
+`${prefix}gav (i'm bark to the chat)`,
+`${prefix}joke (i'm search a random joke)`
+];
+
+const url = 'https://www.anekdot.ru/random/anekdot/';
+
 client.login(token);
 //const broadcast = client.voice.createBroadcast();
 
 client.on('ready', () => {
+    console.log('Bot is ready!');
+    client.user.setPresence({
+        status: 'online',
+        game: {
+            name : `${prefix}help\n`,
+            type: "PLAYING"
+        }
+    })
     console.log(`Logged in as ${client.user.tag}!`);
          // List servers the bot is connected to
     console.log("Servers:")
@@ -22,70 +39,98 @@ client.on('ready', () => {
     })
 
     let generalChannel = client.channels.get("666283537481334789") // Replace with known channel ID
-    generalChannel.send("Hello, channel!");
+    generalChannel.send("Hello, channel!:wave:");
   });
   
 client.on("message",(message)=>
 {   
     
     
-    // if (message.content === userMessage){
-    //     console.log(answer);
-    // }
-    //console.log(answer);
-    if(message.content === `${botconfig.prefix}privet`)
+    if(message.content === `${prefix}hello`)
     {
         message.reply("Привет!:wave:");
     }
-    if (message.content === "!ping")
-    {
-        message.channel.send('pong');
-    }
-    if (message.content === "кто пидор?"){
-        message.channel.send('ты');
-       // broadcast.play('https://music.yandex.ru/album/10130567/track/63591534');
+  
+    if (message.content === '!gav'){
+        message.channel.send("гааааа аааа  аааа  ааа в", {
+            tts: true
+        });
     }
 
-    userMessage = message.content.match(regStr);
-    console.log('userMessage: ', userMessage);
-    //  answer = message.content.match(userMessage);
-    if(message.content === userMessage){
-        console.log('userMessage: ', userMessage);
-        const req = https.get(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200120T163823Z.7bb103fdefce1a07.97d3d9da4ad75918093ac27a6cb02de93e6848f8&lang=en-ru&format=plain&text=${userMessage}`,(res)=>{
-            const statusCode = res.statusCode;
-            let error;
-            if (statusCode !== 200){
-                error = new Error(`Request Failed.\n` +
-                `Status Code: ${statusCode}`);
+    if (message.content === `${prefix}joke`){
+        (async() => {
+            // Запустим браузер
+            const browser = await puppeteer.launch({
+              args: ['--no-sandbox'] }
+            );
+            // Откроем новую страницу
+            const page = await browser.newPage();
+            const pageURL = url;
+            
+            try {
+              // Попробуем перейти по URL
+              await page.goto(pageURL);
+              console.log(`Открываю страницу: ${pageURL}`);
+              const joke = await page.evaluate(() => {
+                  return document.querySelector('div.text').innerText;
+              });
+    
+              console.log(joke);
+              message.channel.send(joke);
+              //ctx.reply(joke);
+    
+            } catch (error) {
+              console.log(`Не удалось открыть
+                страницу: ${pageURL} из-за ошибки: ${error}`);
             }
-
-            if (error) {
-                console.log(error.message);
-                // consume response data to free up memory
-                res.resume();
-                return;
-              }
-
-              let rawData = '';
-                res.on('data', (chunk) => rawData += chunk);
-                res.on('end', () => {
-                    try {
-                      let parsedData = JSON.parse(rawData);
-                      console.log(parsedData.text[0]);
-                      message.channel.send(parsedData.text[0]);
-                    } catch (e) {
-                      console.log(e.message);
-                    }
-                  });
-
-                
-                
-        })
+            // Всё сделано, закроем браузер
+            await browser.close();
+            
+          })();
     }
 
-    if(message.content === `${botconfig.prefix}help`)
-    {
-        message.channel.send('В разработке :)');
+   
+    //  answer = message.content.match(userMessage);
+  
+    if(message.content.match(Gif)){
+        let SubStr = message.content.match(Gif);
+        let search_term = SubStr[0].substring(5, SubStr[0].length);
+        console.log('search_term: ', search_term);
+        (async () => {
+          let apikey = "X62CWH5HRXMV";
+          let lmt = 8;
+        
+          let search_url = "https://g.tenor.com/v1/search?q=" + search_term + "&key=" +
+            apikey + "&limit=" + lmt;
+
+          let response = await fetch(search_url);
+          let clearRes = await response.json();
+          let responseGif = clearRes.results[0]["media"][0]["tinygif"]["url"];
+
+          message.channel.send(responseGif);
+        })();
+    }
+
+    if(message.content === `${prefix}help`)
+    {       message.channel.send('Я даю вам 30 секунд на просмотр!');
+            commandsDescription.forEach(command => {
+                message.channel.send(' - '+ command + '\n');
+            })
+
+      
+    }
+
+    if (message.content === `${prefix}ping`) {
+        message.channel.send({embed: {
+            color: 0x2ed32e,
+            fields: [{
+                name: "Pong",
+                value: `You Ping is:  ${Date.now() - message.createdTimestamp} ms` //client.ping has been moved to the WebSocketManager under client.ws.ping
+          }
+         ],
+    }
+    })
+       
     }
 
     
