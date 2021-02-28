@@ -15,7 +15,6 @@ const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
 const url = 'https://www.anekdot.ru/random/anekdot/';
 
 client.login(token);
-//const broadcast = client.voice.createBroadcast();
 
 client.on('ready', () => {
     console.log('Bot is ready!');
