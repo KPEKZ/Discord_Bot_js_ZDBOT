@@ -12,7 +12,6 @@ const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
 `${prefix}gav (i'm bark to the chat)`,
 `${prefix}joke (i'm search a random joke)`
 ];
-
 const url = 'https://www.anekdot.ru/random/anekdot/';
 
 client.login(token);
