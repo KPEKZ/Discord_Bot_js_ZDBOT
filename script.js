@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
+const express = require('express');
 const https = require('https');
 const puppeteer = require('puppeteer');
 const client = new Discord.Client();
@@ -13,6 +14,22 @@ const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
 `${prefix}joke (i'm search a random joke)`
 ];
 const url = 'https://www.anekdot.ru/random/anekdot/';
+let app = express();
+const PORT = process.env.PORT || 3000;
+
+
+async function start(){
+    try {
+         app.listen(PORT, ()=>{
+            console.log(`Server has been started at ${PORT}`);
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+start();
 
 client.login(token);
 
@@ -133,4 +150,3 @@ client.on("message",(message)=>
 
     
 });
-
