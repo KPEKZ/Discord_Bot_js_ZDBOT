@@ -4,7 +4,7 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "stard": " node script",
+    "start": " node script",
     "dev" : "nodemon srcipt"
   },
   "repository": {
