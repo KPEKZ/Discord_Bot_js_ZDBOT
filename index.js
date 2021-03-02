@@ -1,18 +1,13 @@
 const Discord = require('discord.js');
-const fetch = require('node-fetch');
-const https = require('https');
-const puppeteer = require('puppeteer');
 const client = new Discord.Client();
 const {prefix} = require("./botconfig.json");
-const { resolve } = require('path');
-const { setInterval } = require('timers');
 const token = process.env.BOT_TOKEN;
 const Gif = /\!gif .*/i;
+
 const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
 `${prefix}hello (say hello)`,
 `${prefix}ping (Show your ping)`,
 `${prefix}gav (i'm bark to the chat)`,
-`${prefix}joke (i'm search a random joke)`
 ];
 const url = 'https://www.anekdot.ru/random/anekdot/';
 
@@ -72,39 +67,6 @@ client.on("message",(message)=>
         });
     }
 
-    if (message.content === `${prefix}joke`){
-        (async() => {
-            // Запустим браузер
-            const browser = await puppeteer.launch({
-              args: ['--no-sandbox'] }
-            );
-            // Откроем новую страницу
-            const page = await browser.newPage();
-            const pageURL = url;
-            
-            try {
-              // Попробуем перейти по URL
-              await page.goto(pageURL);
-              console.log(`Открываю страницу: ${pageURL}`);
-              const joke = await page.evaluate(() => {
-                  return document.querySelector('div.text').innerText;
-              });
-    
-              console.log(joke);
-              message.channel.send(joke);
-              //ctx.reply(joke);
-    
-            } catch (error) {
-              console.log(`Не удалось открыть
-                страницу: ${pageURL} из-за ошибки: ${error}`);
-            }
-            // Всё сделано, закроем браузер
-            await browser.close();
-            
-          })();
-    }
-
-   
     //  answer = message.content.match(userMessage);
   
     if(message.content.match(Gif)){
