@@ -1,8 +1,16 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const express = require('express');
 const {prefix} = require("./botconfig.json");
 const token = process.env.BOT_TOKEN;
 const Gif = /\!gif .*/i;
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, ()=>{
+    
+})
 
 const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
 `${prefix}hello (say hello)`,

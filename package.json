@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/KPEKZ/Discord_Bot_js_ZDBOT#readme",
   "dependencies": {
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "express": "^4.17.1"
   }
 }
