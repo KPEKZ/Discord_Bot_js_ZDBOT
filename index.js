@@ -1,10 +1,11 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
-const express = require('express');
 const https = require('https');
 const puppeteer = require('puppeteer');
 const client = new Discord.Client();
 const {prefix} = require("./botconfig.json");
+const { resolve } = require('path');
+const { setInterval } = require('timers');
 const token = process.env.BOT_TOKEN;
 const Gif = /\!gif .*/i;
 const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
@@ -14,22 +15,7 @@ const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
 `${prefix}joke (i'm search a random joke)`
 ];
 const url = 'https://www.anekdot.ru/random/anekdot/';
-let app = express();
-const PORT = process.env.PORT || 3000;
 
-
-async function start(){
-    try {
-         app.listen(PORT, ()=>{
-            console.log(`Server has been started at ${PORT}`);
-        })
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-
-start();
 
 client.login(token);
 
@@ -60,7 +46,21 @@ client.on('ready', () => {
 client.on("message",(message)=>
 {   
     
+    if (message.content == `${prefix}spam`){
+     
+        setInterval(() => {
+            message.channel.send('через каждые 5 секунд закрываш уши',{
+                tts:true
+            });
+            
+        }, 5000);
+        
+           
     
+    }
+
+    
+
     if(message.content === `${prefix}hello`)
     {
         message.reply("Привет!:wave:");
