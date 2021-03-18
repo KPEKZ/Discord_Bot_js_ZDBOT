@@ -1,16 +1,15 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
 const express = require('express');
+const Discord = require('discord.js');
+const fetch = require('node-fetch');
+const client = new Discord.Client();
 const {prefix} = require("./botconfig.json");
-const token = process.env.BOT_TOKEN;
+const token = 'NjY2MjgxNjE2MTIwNzQxOTE5.Xhx5HA.P76IiZc6RsBHMIG4Fx9JLikNvOM';
 const Gif = /\!gif .*/i;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, ()=>{
-    
-})
+app.listen(PORT);
 
 const commandsDescription = [`${prefix}gif (search a tenor GIF by name)`,
 `${prefix}hello (say hello)`,
@@ -34,16 +33,18 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
          // List servers the bot is connected to
     console.log("Servers:")
-    client.guilds.forEach((guild) => {
-         // List all channels
-        console.log(" - " + guild.name);
-        guild.channels.forEach((channel) => {
-            console.log(` -- ${channel.name} (${channel.type}) - ${channel.id}`)
+        client.guilds.cache.forEach((guild)=>{
+            
+            console.log("----- " + guild.name + ", id : " + guild.id);
+            console.log(guild.channels.cache.forEach((channel)=>{
+                console.log(" channel : " + channel.name + " type: " + channel.type + " id : " + channel.id)
+            }));
+     
         })
-    })
-
-    let generalChannel = client.channels.get("666283537481334789") // Replace with known channel ID
-    generalChannel.send("Hello, channel!:wave:");
+     
+    let generalChannel = client.channels.cache.get('666283537481334789'); // Replace with known channel ID
+    generalChannel.send('Hello there! :wave:');
+    
   });
   
 client.on("message",(message)=>
@@ -52,7 +53,7 @@ client.on("message",(message)=>
     if (message.content == `${prefix}spam`){
      
         setInterval(() => {
-            message.channel.send('через каждые 5 секунд закрываш уши',{
+            message.channel.send('через каждые 5 секунд я буду говорить про яголооооьнице ееее ееер',{
                 tts:true
             });
             
@@ -90,9 +91,10 @@ client.on("message",(message)=>
 
           let response = await fetch(search_url);
           let clearRes = await response.json();
-          let responseGif = clearRes.results[0]["media"][0]["tinygif"]["url"];
 
-          message.channel.send(responseGif);
+         let responseGif = clearRes.results[0]["media"][0]["tinygif"]["url"];
+
+         message.channel.send(responseGif);
         })();
     }
 
