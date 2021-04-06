@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const client = new Discord.Client();
 const {prefix} = require("./botconfig.json");
-const token = 'NjY2MjgxNjE2MTIwNzQxOTE5.Xhx5HA.P76IiZc6RsBHMIG4Fx9JLikNvOM';
 const Gif = /\!gif .*/i;
 
 const app = express();
